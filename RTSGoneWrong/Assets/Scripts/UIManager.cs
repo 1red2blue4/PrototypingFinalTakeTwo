@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour {
     public int selectedBaseIndex = 1;
     private GameObject selectedBase;
 
+	private bool buttonBeingPressed;
+
 
     // Number of Bases
     public int numBases = 3;
@@ -34,6 +36,9 @@ public class UIManager : MonoBehaviour {
     void Start()
     {
         currentSelectedUnit = 1;
+		buttonBeingPressed = false;
+		//SetMenu.menuOn = true;
+		print(SetMenu.menuOn);
     }
 
     // Update is called once per frame
@@ -42,7 +47,10 @@ public class UIManager : MonoBehaviour {
 
         MoveCamera();
 
-
+		if (!SetMenu.menuOn)
+		{
+			gameObject.GetComponent<Canvas>().enabled = false;
+		}
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -54,6 +62,39 @@ public class UIManager : MonoBehaviour {
             }
             selector.transform.position = new Vector3(selector.transform.position.x, GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).position.y - 1.5f, selector.transform.position.z);
         }
+
+		if (!buttonBeingPressed)
+		{
+			if (Input.GetAxis("Unit1") > 0)
+			{
+				PressButton(1);
+				buttonBeingPressed = true;
+			}
+			if (Input.GetAxis("Unit2") > 0)
+			{
+				PressButton(2);
+				buttonBeingPressed = true;
+			}
+			if (Input.GetAxis("Unit3") > 0)
+			{
+				PressButton(3);
+				buttonBeingPressed = true;
+			}
+			if (Input.GetAxis("Unit4") > 0)
+			{
+				PressButton(4);
+				buttonBeingPressed = true;
+			}
+			if (Input.GetAxis("Unit5") > 0)
+			{
+				PressButton(5);
+				buttonBeingPressed = true;
+			}
+		}
+		if (Input.GetAxis("Unit1") <= 0 && Input.GetAxis("Unit2") <= 0 && Input.GetAxis("Unit3") <= 0 && Input.GetAxis("Unit4") <= 0 && Input.GetAxis("Unit5") <= 0)
+		{
+			buttonBeingPressed = false;
+		}
 
 
 
