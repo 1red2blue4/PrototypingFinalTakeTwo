@@ -17,6 +17,7 @@ TagManager:
   - CurrentHealth
   - UnitName
   - UnitStats
+  - TutorialText
   layers:
   - Default
   - TransparentFX

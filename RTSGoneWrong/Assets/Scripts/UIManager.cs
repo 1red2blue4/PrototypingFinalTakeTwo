@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour {
 	//the scene's main camera, please drag into script
 	[SerializeField] private Camera mainCamera;
 	[SerializeField] private float cameraSpeed;
+	[SerializeField] private float cameraZoomSpeed;
 
 	[SerializeField] private GameObject tank;
 	[SerializeField] private GameObject healer;
@@ -33,6 +34,9 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+		cameraSpeed = 10.0f;
+		cameraZoomSpeed = 5.0f;
+
         currentSelectedUnit = 1;
 		buttonBeingPressed = false;
 		//SetMenu.menuOn = true;
@@ -253,6 +257,15 @@ public class UIManager : MonoBehaviour {
 		else if (Input.GetAxis("Horizontal") < 0) 
 		{
 			mainCamera.transform.position += new Vector3(-cameraSpeed * Time.deltaTime, 0.0f, 0.0f);
+		}
+
+		if (Input.GetAxis("Zoom") > 0)
+		{
+			mainCamera.orthographicSize -= cameraZoomSpeed * Time.deltaTime;
+		}
+		else if (Input.GetAxis("Zoom") < 0)
+		{
+			mainCamera.orthographicSize += cameraZoomSpeed * Time.deltaTime;
 		}
 	}
 }
