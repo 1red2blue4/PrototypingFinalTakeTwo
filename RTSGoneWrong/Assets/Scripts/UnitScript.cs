@@ -42,6 +42,20 @@ public class UnitScript : MonoBehaviour {
 
         if (unitHealth <=0 )
         {
+            if (((thisUnitType == unitTypes.Flagbearer) &&  //If flagbearer
+                (gameObject.GetComponent<UnitGeneralBehavior>().goesRight == true)) ||
+                ((thisUnitType == unitTypes.HomeBase) && // If base
+                (gameObject.tag == "PlayerBase")))
+            {
+                GameObject.Find("FullMenu").transform.GetChild(0).GetComponent<UIManager>().updateList = true;
+            }
+            else if (((thisUnitType == unitTypes.Flagbearer) &&  //If flagbearer
+                (gameObject.GetComponent<UnitGeneralBehavior>().goesRight == false)) ||
+                ((thisUnitType == unitTypes.HomeBase) && // If base
+                (gameObject.tag == "EnemyBase")))
+            {
+                GameObject.Find("EnemyBases").GetComponent<EnemySpawner>().updateList = true;
+            }
             Destroy(gameObject);
         }
 
@@ -64,5 +78,4 @@ public class UnitScript : MonoBehaviour {
             myAffectHealthScript.percentHealth = (float)unitHealth / (float)unitMaxHealth;
         }
 	}
-
 }

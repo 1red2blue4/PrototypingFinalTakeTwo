@@ -20,17 +20,15 @@ public class UIManager : MonoBehaviour {
 	[SerializeField] private GameObject flagBearer;
 	[SerializeField] private GameObject sniper;
 	[SerializeField] private GameObject barbarian;
-    // Selecting Base
-    public int selectedBaseIndex = 1;
-    private GameObject selectedBase;
 
 	private bool buttonBeingPressed;
 
-
-    // Number of Bases
-    public int numBases = 3;
-
-
+    // Variables for keeping track of unit spawn points
+    public bool updateList;
+    private List<GameObject> spawningObjects;
+    public int selectedBaseIndex = 0;
+    private GameObject selectedBase;
+    private GameObject selector;
 
     // Use this for initialization
     void Start()
@@ -39,12 +37,23 @@ public class UIManager : MonoBehaviour {
 		buttonBeingPressed = false;
 		//SetMenu.menuOn = true;
 		print(SetMenu.menuOn);
+        spawningObjects = new List<GameObject>();
+        updateSpawnList();
+        updateList = false;
+        selector = GameObject.Find("BaseSelector");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+        {
+            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClickSelectUnit();
+        }
         MoveCamera();
 
 		if (!SetMenu.menuOn)
@@ -55,12 +64,22 @@ public class UIManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Z))
         {
             selectedBaseIndex++;
-            GameObject selector = GameObject.Find("BaseSelector");
-            if (selectedBaseIndex > numBases)
+            if (selectedBaseIndex >= spawningObjects.Count)
             {
-                selectedBaseIndex = 1;
+                selectedBaseIndex = 0;
             }
-            selector.transform.position = new Vector3(selector.transform.position.x, GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).position.y - 1.5f, selector.transform.position.z);
+            //selector.transform.position = new Vector3(selector.transform.position.x, GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).position.y - 1.5f, selector.transform.position.z);
+            selectedBase = spawningObjects[selectedBaseIndex];
+            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+            if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+            {
+                selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+            }
+            else
+            {
+                selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+            }
         }
 
 		if (!buttonBeingPressed)
@@ -96,10 +115,82 @@ public class UIManager : MonoBehaviour {
 			buttonBeingPressed = false;
 		}
 
+        if (updateList)
+        {
+            updateList = false;
+            updateSpawnList();
+        }
 
+
+        if (selectedBase == null)
+        {
+            selectedBase = spawningObjects[0];
+            selectedBaseIndex = 0;
+            //TO DO:
+            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+            if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+            {
+                selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+            }
+            else
+            {
+                selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+            }
+        }
 
     }
 
+    void ClickSelectUnit()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        if (hit)
+        {
+            Debug.Log(hit.transform.name);
+            GameObject unit = hit.transform.gameObject;
+            for (int i = 0; i < spawningObjects.Count; i++)
+            {
+                if (spawningObjects[i] == unit)
+                {
+                    selectedBaseIndex = i;
+                    selectedBase = spawningObjects[selectedBaseIndex];
+                    GameObject selector = GameObject.Find("BaseSelector");
+                    selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+                    if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+                    {
+                        selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+                    }
+                    else
+                    {
+                        selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                        selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+
+    private void updateSpawnList()
+    {
+        spawningObjects.Clear();
+        GameObject[] bases = GameObject.FindGameObjectsWithTag("PlayerBase");
+        for (int i = 0; i < bases.GetLength(0); i++)
+            spawningObjects.Add(bases[i]);
+
+        GameObject[] allUnits = GameObject.FindGameObjectsWithTag("Unit");
+        for (int i = 0; i < allUnits.GetLength(0); i++)
+        {
+            if ((allUnits[i].GetComponent<UnitScript>().thisUnitType == UnitScript.unitTypes.Flagbearer) &&
+                (allUnits[i].GetComponent<UnitGeneralBehavior>().goesRight == true))
+            {
+                spawningObjects.Add(allUnits[i]);
+            }
+        }
+    }
+ 
     public void PressButton(int buttonNum)
 	{
 		print(buttonNum);
@@ -116,6 +207,8 @@ public class UIManager : MonoBehaviour {
         }
 		else if (currentSelectedUnit == 3)
 		{
+            //UpdateList to keep track
+            updateList = true;
 			createType = flagBearer;
 		}
 		else if (currentSelectedUnit == 4)
@@ -129,7 +222,7 @@ public class UIManager : MonoBehaviour {
 		if (createType != null && ResourceDisplay.favour >= createType.GetComponent<UnitScript>().unitCost)
 		{
            createType.GetComponent<UnitGeneralBehavior>().goesRight = true;
-           selectedBase = GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).gameObject;
+           //selectedBase = GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).gameObject;
            Instantiate(createType, selectedBase.transform.position, Quaternion.identity);
 
 			ResourceDisplay.favour -= createType.GetComponent<UnitScript>().unitCost;

@@ -50,7 +50,7 @@ public class UnitGeneralBehavior : MonoBehaviour {
         isDead = false;
         timer = timeTillChangeDecision - 0.2f;
         attackingEnemy = null;
-        goal = Vector3.zero;
+        goal = new Vector3(transform.position.x + Random.Range(-5 , 5), transform.position.y + Random.Range(-5, 5)) ;
         inflictDamageTimer = 0.0f;
         myUnitScript = gameObject.GetComponent<UnitScript>();
 
@@ -77,6 +77,13 @@ public class UnitGeneralBehavior : MonoBehaviour {
         // To check if it goes back to normal working. For testing
         if (isDead)
         {
+            if ((myUnitScript.thisUnitType == UnitScript.unitTypes.Flagbearer) && (goesRight == true))
+            {
+                if (goesRight == true)
+                    GameObject.Find("FullMenu").transform.GetChild(0).GetComponent<UIManager>().updateList = true;
+                else
+                    GameObject.Find("EnemyBases").GetComponent<EnemySpawner>().updateList = true;
+            }
             Destroy(gameObject);
         }
 
