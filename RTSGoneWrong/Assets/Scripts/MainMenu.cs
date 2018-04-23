@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviour
 			print("Game Start!");
 			SetMenu.menuOn = true;
 			SetMenu.gameHasStarted = true;
+			SetMenu.masterVolume = 1.0f;
 		}
 	}
 }

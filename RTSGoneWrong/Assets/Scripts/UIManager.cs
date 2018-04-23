@@ -39,8 +39,6 @@ public class UIManager : MonoBehaviour {
 
         currentSelectedUnit = 1;
 		buttonBeingPressed = false;
-		//SetMenu.menuOn = true;
-		print(SetMenu.menuOn);
         spawningObjects = new List<GameObject>();
         updateSpawnList();
         updateList = false;

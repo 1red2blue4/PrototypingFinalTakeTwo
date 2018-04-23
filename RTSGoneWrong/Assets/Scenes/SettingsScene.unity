@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 278839533}
   - component: {fileID: 278839534}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: MasterVolumeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,7 +413,18 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1191316055}
+        m_MethodName: SetMasterVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &348472560
@@ -915,6 +926,7 @@ GameObject:
   - component: {fileID: 1191316053}
   - component: {fileID: 1191316052}
   - component: {fileID: 1191316051}
+  - component: {fileID: 1191316055}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1004,6 +1016,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1191316055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1191316050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba0d8ca4c54adbc48b1e12cfa159f832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1639580737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,9 +1378,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1831321062}
   - component: {fileID: 1831321063}
-  - component: {fileID: 1831321064}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: MenuOnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1425,7 +1447,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1831321064}
+      - m_Target: {fileID: 1191316055}
         m_MethodName: SetMenuOn
         m_Mode: 0
         m_Arguments:
@@ -1439,17 +1461,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
---- !u!114 &1831321064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1831321061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba0d8ca4c54adbc48b1e12cfa159f832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1909712439
 GameObject:
   m_ObjectHideFlags: 0
