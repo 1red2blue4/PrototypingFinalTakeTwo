@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
     private float timer;
     private float resourcesPerSecond;
-
+    public bool isEnemyDead;
     private float spawnTimer;
     private float timeToSpawn;
     public bool updateList;
@@ -23,6 +23,7 @@ public class EnemySpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        isEnemyDead = false;
         spawningObjects = new List<GameObject>();
         updateList = false;
         updateSpawnList();
@@ -38,24 +39,27 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer > (1.0 / resourcesPerSecond))
+        if (!isEnemyDead || GameObject.Find("Main Camera").GetComponent<GamePause>().isPlayerDead)
         {
-            enemyResources++;
-            timer = 0.0f;
-        }
+            if (timer > (1.0 / resourcesPerSecond))
+            {
+                enemyResources++;
+                timer = 0.0f;
+            }
 
-        if (spawnTimer >= timeToSpawn)
-        {
-            GenerateUnits();
-            spawnTimer = 0.0f;
+            if (spawnTimer >= timeToSpawn)
+            {
+                GenerateUnits();
+                spawnTimer = 0.0f;
+            }
+            if (updateList)
+            {
+                updateList = false;
+                updateSpawnList();
+            }
+            timer += Time.deltaTime;
+            spawnTimer += Time.deltaTime;
         }
-        if (updateList)
-        {
-            updateList = false;
-            updateSpawnList();
-        }
-        timer += Time.deltaTime;
-        spawnTimer += Time.deltaTime;
     }
 
     public void GenerateUnits()
@@ -102,6 +106,11 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < bases.GetLength(0); i++)
             spawningObjects.Add(bases[i]);
 
+        if (spawningObjects.Count == 0)
+        {
+            YouWin();
+        }
+
         GameObject[] allUnits = GameObject.FindGameObjectsWithTag("Unit");
         for (int i = 0; i < allUnits.GetLength(0); i++)
         {
@@ -111,5 +120,14 @@ public class EnemySpawner : MonoBehaviour
                 spawningObjects.Add(allUnits[i]);
             }
         }
+
+
+    }
+
+
+    void YouWin()
+    {
+        isEnemyDead = true;
+        GameObject.Find("Main Camera").GetComponentInChildren<GamePause>().isEnemyDead = true;
     }
 }

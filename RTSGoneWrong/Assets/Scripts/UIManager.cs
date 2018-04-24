@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour {
 	private bool buttonBeingPressed;
 
     // Variables for keeping track of unit spawn points
+    private bool isPlayerDead;
     public bool updateList;
     private List<GameObject> spawningObjects;
     public int selectedBaseIndex = 0;
@@ -34,7 +35,8 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-		cameraSpeed = 10.0f;
+        isPlayerDead = false;
+        cameraSpeed = 10.0f;
 		cameraZoomSpeed = 5.0f;
 
         currentSelectedUnit = 1;
@@ -48,96 +50,99 @@ public class UIManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+        if (!isPlayerDead || GameObject.Find("Main Camera").GetComponent<GamePause>().isEnemyDead)
         {
-            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            ClickSelectUnit();
-        }
-        MoveCamera();
-
-		if (!SetMenu.menuOn)
-		{
-			gameObject.GetComponent<Canvas>().enabled = false;
-		}
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            selectedBaseIndex++;
-            if (selectedBaseIndex >= spawningObjects.Count)
+            if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
             {
+                selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                ClickSelectUnit();
+            }
+            MoveCamera();
+
+            if (!SetMenu.menuOn)
+            {
+                gameObject.GetComponent<Canvas>().enabled = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                selectedBaseIndex++;
+                if (selectedBaseIndex >= spawningObjects.Count)
+                {
+                    selectedBaseIndex = 0;
+                }
+                //selector.transform.position = new Vector3(selector.transform.position.x, GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).position.y - 1.5f, selector.transform.position.z);
+                selectedBase = spawningObjects[selectedBaseIndex];
+                selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+                if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+                {
+                    selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+                }
+                else
+                {
+                    selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                    selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+                }
+            }
+
+            if (!buttonBeingPressed)
+            {
+                if (Input.GetAxis("Unit1") > 0)
+                {
+                    PressButton(1);
+                    buttonBeingPressed = true;
+                }
+                if (Input.GetAxis("Unit2") > 0)
+                {
+                    PressButton(2);
+                    buttonBeingPressed = true;
+                }
+                if (Input.GetAxis("Unit3") > 0)
+                {
+                    PressButton(3);
+                    buttonBeingPressed = true;
+                }
+                if (Input.GetAxis("Unit4") > 0)
+                {
+                    PressButton(4);
+                    buttonBeingPressed = true;
+                }
+                if (Input.GetAxis("Unit5") > 0)
+                {
+                    PressButton(5);
+                    buttonBeingPressed = true;
+                }
+            }
+            if (Input.GetAxis("Unit1") <= 0 && Input.GetAxis("Unit2") <= 0 && Input.GetAxis("Unit3") <= 0 && Input.GetAxis("Unit4") <= 0 && Input.GetAxis("Unit5") <= 0)
+            {
+                buttonBeingPressed = false;
+            }
+
+            if (updateList)
+            {
+                updateList = false;
+                updateSpawnList();
+            }
+
+
+            if (selectedBase == null)
+            {
+                selectedBase = spawningObjects[0];
                 selectedBaseIndex = 0;
-            }
-            //selector.transform.position = new Vector3(selector.transform.position.x, GameObject.Find("AlliedBases").transform.GetChild(selectedBaseIndex).position.y - 1.5f, selector.transform.position.z);
-            selectedBase = spawningObjects[selectedBaseIndex];
-            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
-            if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
-            {
-                selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
-            }
-            else
-            {
-                selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
-                selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
-            }
-        }
-
-		if (!buttonBeingPressed)
-		{
-			if (Input.GetAxis("Unit1") > 0)
-			{
-				PressButton(1);
-				buttonBeingPressed = true;
-			}
-			if (Input.GetAxis("Unit2") > 0)
-			{
-				PressButton(2);
-				buttonBeingPressed = true;
-			}
-			if (Input.GetAxis("Unit3") > 0)
-			{
-				PressButton(3);
-				buttonBeingPressed = true;
-			}
-			if (Input.GetAxis("Unit4") > 0)
-			{
-				PressButton(4);
-				buttonBeingPressed = true;
-			}
-			if (Input.GetAxis("Unit5") > 0)
-			{
-				PressButton(5);
-				buttonBeingPressed = true;
-			}
-		}
-		if (Input.GetAxis("Unit1") <= 0 && Input.GetAxis("Unit2") <= 0 && Input.GetAxis("Unit3") <= 0 && Input.GetAxis("Unit4") <= 0 && Input.GetAxis("Unit5") <= 0)
-		{
-			buttonBeingPressed = false;
-		}
-
-        if (updateList)
-        {
-            updateList = false;
-            updateSpawnList();
-        }
-
-
-        if (selectedBase == null)
-        {
-            selectedBase = spawningObjects[0];
-            selectedBaseIndex = 0;
-            //TO DO:
-            selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
-            if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
-            {
-                selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
-            }
-            else
-            {
-                selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
-                selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+                //TO DO:
+                selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+                if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
+                {
+                    selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+                }
+                else
+                {
+                    selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                    selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+                }
             }
         }
 
@@ -180,8 +185,14 @@ public class UIManager : MonoBehaviour {
         spawningObjects.Clear();
         GameObject[] bases = GameObject.FindGameObjectsWithTag("PlayerBase");
         for (int i = 0; i < bases.GetLength(0); i++)
+        {
             spawningObjects.Add(bases[i]);
+        }
 
+        if (spawningObjects.Count == 0)
+        {
+            YouLose();
+        }
         GameObject[] allUnits = GameObject.FindGameObjectsWithTag("Unit");
         for (int i = 0; i < allUnits.GetLength(0); i++)
         {
@@ -266,4 +277,10 @@ public class UIManager : MonoBehaviour {
 			mainCamera.orthographicSize += cameraZoomSpeed * Time.deltaTime;
 		}
 	}
+
+    void YouLose()
+    {
+        isPlayerDead = true;
+        GameObject.Find("Main Camera").GetComponentInChildren<GamePause>().isPlayerDead = true;
+    }
 }

@@ -92,6 +92,7 @@ public class UnitGeneralBehavior : MonoBehaviour {
 			MakeDecision();
 
             CircleDetectionForAttack();
+            
             Seek(goal);
 
             timer += Time.deltaTime;
@@ -221,29 +222,32 @@ public class UnitGeneralBehavior : MonoBehaviour {
 
     private void Seek(Vector3 myGoal)
     {
-        goal = myGoal;
+        if (goal != null)
+        {
+            goal = myGoal;
 
-        Vector3 needsToMove = goal - transform.position;
+            Vector3 needsToMove = goal - transform.position;
 
-        //To avoid intersecting
-		float rangeToMove = 0.5f;
-		if (isAttacking)
-		{
-			rangeToMove = myUnitScript.unitRange;
-		}
-		if ((transform.position.x <= goal.x + rangeToMove && transform.position.x >=  goal.x - rangeToMove) && 
-			(transform.position.y <= goal.y + rangeToMove && transform.position.y >= goal.y - rangeToMove ))
-		{
+            //To avoid intersecting
+            float rangeToMove = 0.5f;
             if (isAttacking)
             {
-                InflictDamage();
+                rangeToMove = myUnitScript.unitRange;
             }
-			return;
-		}
+            if ((transform.position.x <= goal.x + rangeToMove && transform.position.x >= goal.x - rangeToMove) &&
+                (transform.position.y <= goal.y + rangeToMove && transform.position.y >= goal.y - rangeToMove))
+            {
+                if (isAttacking)
+                {
+                    InflictDamage();
+                }
+                return;
+            }
 
-        moveDirection = needsToMove;
+            moveDirection = needsToMove;
 
-        transform.position += Vector3.Normalize(moveDirection) * speed * Time.deltaTime;
+            transform.position += Vector3.Normalize(moveDirection) * speed * Time.deltaTime;
+        }
     }
 
     //Checks in radius for enemies
