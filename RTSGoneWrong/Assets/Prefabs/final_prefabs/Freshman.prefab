@@ -172,7 +172,7 @@ MonoBehaviour:
   thisUnitType: 2
   unitHealth: 55
   unitAttack: 3
-  unitSpeed: 5
+  unitSpeed: 4
   unitCost: 7
   unitRange: 3
   isDamaged: 0

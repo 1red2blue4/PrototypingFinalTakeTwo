@@ -183,8 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisUnitType: 1
-  unitHealth: 70
-  unitAttack: 6
+  unitHealth: 40
+  unitAttack: 4
   unitSpeed: 4
   unitCost: 12
   unitRange: 2

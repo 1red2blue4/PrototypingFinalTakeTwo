@@ -171,9 +171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitType: 0
   unitHealth: 150
-  unitAttack: 4
-  unitSpeed: 3
-  unitCost: 14
+  unitAttack: 1
+  unitSpeed: 5
+  unitCost: 10
   unitRange: 1.5
   isDamaged: 0
   unitMaxHealth: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   standStillChance: 5
   goToClosestUnitChance: 2
   isDead: 0
-  attackSpeed: 0.6
+  attackSpeed: 1.2
   isAttacking: 0
   attackingEnemy: {fileID: 0}
   wanderTimesPerPeriod: 6
