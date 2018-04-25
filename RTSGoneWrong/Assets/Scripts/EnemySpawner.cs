@@ -13,10 +13,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int enemyResources;
 
     private float timer;
-    private float resourcesPerSecond;
+    [SerializeField] private float resourcesPerSecond;
     public bool isEnemyDead;
     private float spawnTimer;
-    private float timeToSpawn;
+    [SerializeField] private float timeToSpawn;
     public bool updateList;
     private List<GameObject> spawningObjects;
 
@@ -29,11 +29,11 @@ public class EnemySpawner : MonoBehaviour
         updateSpawnList();
 
         enemyResources = 100;
-        resourcesPerSecond = 4;
+        //resourcesPerSecond = 4;
 
         timer = 0.0f;
         spawnTimer = 0.0f;
-        timeToSpawn = 2.0f;
+        //timeToSpawn = 2.0f;
     }
 
     // Update is called once per frame
