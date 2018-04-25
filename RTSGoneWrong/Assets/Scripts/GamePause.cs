@@ -13,7 +13,7 @@ public class GamePause : MonoBehaviour
     public bool isEnemyDead;
     public bool isPlayerDead;
     private bool gameEnded;
-
+    private float timer;
     //Set colour to red t.SetPixel( 0, 0, Color.white );
 
     // Use this for initialization
@@ -28,6 +28,7 @@ public class GamePause : MonoBehaviour
         progressiveWhiteScreen = new Color(1f, 1f, 1f, 0.05f);
         isEnemyDead = false;
         isPlayerDead = false;
+        timer = 0.0f;
     }
 
     // Update is called once per frame
@@ -55,6 +56,19 @@ public class GamePause : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 //Load whatever scene
+            }
+            timer += Time.deltaTime;
+            if (timer > 5.0f)
+            {
+                if (isPlayerDead)
+                {
+                    //Load scene again
+
+                }
+                else
+                {
+                    //Load next scene
+                }
             }
         }
     }
