@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
         isEnemyDead = false;
         spawningObjects = new List<GameObject>();
         updateList = false;
-        updateSpawnList();
+        UpdateSpawnList();
 
         enemyResources = 100;
         //resourcesPerSecond = 4;
@@ -39,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isEnemyDead || GameObject.Find("Main Camera").GetComponent<GamePause>().isPlayerDead)
+        if (!isEnemyDead && !GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GamePause>().isEnemyDead)
         {
             if (timer > (1.0 / resourcesPerSecond))
             {
@@ -55,7 +55,7 @@ public class EnemySpawner : MonoBehaviour
             if (updateList)
             {
                 updateList = false;
-                updateSpawnList();
+                UpdateSpawnList();
             }
             timer += Time.deltaTime;
             spawnTimer += Time.deltaTime;
@@ -99,7 +99,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void updateSpawnList()
+    private void UpdateSpawnList()
     {
         spawningObjects.Clear();
         GameObject[] bases = GameObject.FindGameObjectsWithTag("EnemyBase");
@@ -128,6 +128,6 @@ public class EnemySpawner : MonoBehaviour
     void YouWin()
     {
         isEnemyDead = true;
-        GameObject.Find("Main Camera").GetComponentInChildren<GamePause>().isEnemyDead = true;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<GamePause>().isEnemyDead = true;
     }
 }

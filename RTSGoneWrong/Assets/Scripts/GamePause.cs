@@ -67,7 +67,10 @@ public class GamePause : MonoBehaviour
             // Draw fade 
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), tintTexture, ScaleMode.StretchToFill);
 
-            Rect rect = new Rect((Screen.width / 2) - Screen.width / 4, (Screen.height / 2) - Screen.height / 4, Screen.width / 2, Screen.height / 2);
+            Rect rect = new Rect((Screen.width / 2) - (200 / 2),
+                                (Screen.height / 2) - (200 / 2),
+                                200,
+                                200);
             GUI.Label(rect, "Game Paused", guiStyle);
         }
 
@@ -84,8 +87,11 @@ public class GamePause : MonoBehaviour
             // Draw fade 
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), tintTexture, ScaleMode.StretchToFill);
 
-            Rect rect = new Rect((Screen.width / 2) - Screen.width / 4, (Screen.height / 2) - Screen.height / 4, Screen.width / 2, Screen.height / 2);
-            if (isEnemyDead)
+            Rect rect = new Rect((Screen.width / 2) - (200 / 2),
+                                (Screen.height / 2) - (200 / 2),
+                                200,
+                                200);
+            if (isPlayerDead)
             {
                 GUI.Label(rect, "You Lose", guiStyle);
             }

@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour {
         currentSelectedUnit = 1;
 		buttonBeingPressed = false;
         spawningObjects = new List<GameObject>();
-        updateSpawnList();
+        UpdateSpawnList();
         updateList = false;
         selector = GameObject.Find("BaseSelector");
     }
@@ -50,8 +50,26 @@ public class UIManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!isPlayerDead || GameObject.Find("Main Camera").GetComponent<GamePause>().isEnemyDead)
+        if (!isPlayerDead && !GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GamePause>().isEnemyDead)
         {
+
+            if (selectedBase == null)
+            {
+                UpdateSpawnList();
+                if (spawningObjects.Count > 0)
+                {
+                    selectedBaseIndex = 0;
+                    selectedBase = spawningObjects[selectedBaseIndex];
+                    selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
+                    selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
+                    selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
+                }
+            }
+            if (updateList)
+            {
+                updateList = false;
+                UpdateSpawnList();
+            }
             if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
             {
                 selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
@@ -121,29 +139,7 @@ public class UIManager : MonoBehaviour {
                 buttonBeingPressed = false;
             }
 
-            if (updateList)
-            {
-                updateList = false;
-                updateSpawnList();
-            }
 
-
-            if (selectedBase == null)
-            {
-                selectedBase = spawningObjects[0];
-                selectedBaseIndex = 0;
-                //TO DO:
-                selector.transform.position = spawningObjects[selectedBaseIndex].transform.position;
-                if (spawningObjects[selectedBaseIndex].GetComponent<UnitGeneralBehavior>() != null)
-                {
-                    selector.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
-                }
-                else
-                {
-                    selector.transform.position = new Vector3(selector.transform.position.x, selector.transform.position.y - 1.5f, selector.transform.position.z);
-                    selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
-                }
-            }
         }
 
     }
@@ -180,7 +176,7 @@ public class UIManager : MonoBehaviour {
     }
 
 
-    private void updateSpawnList()
+    private void UpdateSpawnList()
     {
         spawningObjects.Clear();
         GameObject[] bases = GameObject.FindGameObjectsWithTag("PlayerBase");
@@ -281,6 +277,6 @@ public class UIManager : MonoBehaviour {
     void YouLose()
     {
         isPlayerDead = true;
-        GameObject.Find("Main Camera").GetComponentInChildren<GamePause>().isPlayerDead = true;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<GamePause>().isPlayerDead = true;
     }
 }

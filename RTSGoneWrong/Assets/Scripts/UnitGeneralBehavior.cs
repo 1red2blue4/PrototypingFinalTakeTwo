@@ -162,7 +162,8 @@ public class UnitGeneralBehavior : MonoBehaviour {
                         enemyBase = GameObject.FindGameObjectWithTag("PlayerBase");
                     }
 					//TODO: find the enemy base
-					goal = enemyBase.transform.position;
+                    if (enemyBase != null)
+					    goal = enemyBase.transform.position;
 					isWandering = false;
 				} 
 				//stand still
