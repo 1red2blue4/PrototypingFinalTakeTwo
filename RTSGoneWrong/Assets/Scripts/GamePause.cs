@@ -16,6 +16,9 @@ public class GamePause : MonoBehaviour
     private float timer;
     //Set colour to red t.SetPixel( 0, 0, Color.white );
 
+	private float moveOnTimer;
+	private float tryAgainTimer;
+
     // Use this for initialization
     void Start()
     {
@@ -108,10 +111,27 @@ public class GamePause : MonoBehaviour
             if (isPlayerDead)
             {
                 GUI.Label(rect, "You Lose", guiStyle);
+				tryAgainTimer += Time.deltaTime;
+				if (tryAgainTimer > 3.0f)
+				{
+					print("LevelNum: " + SetMenu.levelNum);
+					ResourceDisplay.favour = 100;
+					LevelManager lvlMngr = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
+					lvlMngr.LoadLevel(SetMenu.levelNum);
+				}
             }
             else
             {
                 GUI.Label(rect, "You Win", guiStyle);
+				moveOnTimer += Time.deltaTime;
+				if (moveOnTimer > 3.0f)
+				{
+					print("LevelNum: " + SetMenu.levelNum);
+					SetMenu.levelNum++;
+					ResourceDisplay.favour = 100;
+					LevelManager lvlMngr = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
+					lvlMngr.LoadLevel(SetMenu.levelNum);
+				}
             }
             guiStyle.fontSize += 1;
             if (guiStyle.fontSize > 100)

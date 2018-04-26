@@ -57,10 +57,10 @@ public class MoveThroughTutorial : MonoBehaviour {
 		allTextLines[4][1] = "grand view with P.";
 
 		allTextLines[5][0] = "I'll bet Humans versus Zombies students are willing to help out.";
-		allTextLines[5][1] = "Try pressing 4 to recruit one.";
+		allTextLines[5][1] = "Try pressing 1 to recruit one.";
 
 		allTextLines[6][0] = "Or you could recruit one of my personal favorites, freshman.";
-		allTextLines[6][1] = "Press 5 to recruit freshmen.";
+		allTextLines[6][1] = "Press 2 to recruit freshmen.";
 
 		allTextLines[7][0] = "If you'd like to recruit students from a different department,";
 		allTextLines[7][1] = "just click on the other building.";
@@ -75,7 +75,7 @@ public class MoveThroughTutorial : MonoBehaviour {
 		allTextLines[10][1] = "Okay, that's enough. Back to business.";
 
 		allTextLines[11][0] = "Graduate students can be helpful too.";
-		allTextLines[11][1] = "They can be recruited by pressing 1.";
+		allTextLines[11][1] = "They can be recruited by pressing 3.";
 
 		allTextLines[12][0] = "You can try... emphasis on \"try\"... to direct your students";
 		allTextLines[12][1] = "by right clicking on a location.";
@@ -83,8 +83,8 @@ public class MoveThroughTutorial : MonoBehaviour {
 		allTextLines[13][0] = "But most students don't like to listen!";
 		allTextLines[13][1] = "";
 
-		allTextLines[14][0] = "There are a couple who listen a little better. Like resident assistants.";
-		allTextLines[14][1] = "You can recruit them by pressing 2.";
+		allTextLines[14][0] = "There are a couple who listen a little better. Like labbies.";
+		allTextLines[14][1] = "They help out other students. You can recruit them by pressing 4.";
 
 		allTextLines[15][0] = "Of course, we're in no fear of losing students here.";
 		allTextLines[15][1] = "After all, we haven't confronted Munroe with this issue yet.";
@@ -92,7 +92,7 @@ public class MoveThroughTutorial : MonoBehaviour {
 		allTextLines[16][0] = "But I'm sure Munroe will have students defending him as well.";
 		allTextLines[16][1] = "We need to be ready for anything.";
 
-		allTextLines[17][0] = "Finally, there's our mascot, Richie. He can be recruited by pressing 3.";
+		allTextLines[17][0] = "Finally, there's our mascot, Richie. He can be recruited by pressing 5.";
 		allTextLines[17][1] = "";
 
 		allTextLines[18][0] = "If you click on Richie, you can recruit students directly from his location!";
@@ -144,6 +144,12 @@ public class MoveThroughTutorial : MonoBehaviour {
 
 		if (!atEndOfCurrentDialogue)
 		{
+			if (Input.GetMouseButtonDown(0))
+			{
+				currentCharacter = theText.GetLength(0);
+				atEndOfCurrentDialogue = true;
+			}
+
 			for (int i = 0; i < theText.GetLength(0); i++)
 			{
 				if (i <= currentCharacter)
@@ -169,7 +175,7 @@ public class MoveThroughTutorial : MonoBehaviour {
 		{
 			shownText = theText;
 
-			if (Input.GetAxis("Click") > 0 && currentTextProgress < dialogueLineSets - 1)
+			if (Input.GetMouseButtonDown(0) && currentTextProgress < dialogueLineSets - 1)
 			{
 				currentCharacter = 0;
 				currentTextProgress++;

@@ -5,10 +5,17 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
 
-    public void MenuAction(string sceneName)
+	public void LoadLevel(int myLevelNum)
     {
-        SceneManager.LoadScene(sceneName);
+		SetMenu.levelNum = myLevelNum;
+		SceneManager.LoadScene(SetMenu.levelNames[SetMenu.levelNum]);
     }
+
+	public void LoadTech(string levelName)
+	{
+		SceneManager.LoadScene(levelName);
+	}
+
 
 	void Start()
 	{
@@ -18,6 +25,11 @@ public class MainMenu : MonoBehaviour
 			SetMenu.menuOn = true;
 			SetMenu.gameHasStarted = true;
 			SetMenu.masterVolume = 1.0f;
+			SetMenu.levelNum = 0;
+			SetMenu.levelNames = new string[3];
+			SetMenu.levelNames[0] = "KaustabhPotentialScene";
+			SetMenu.levelNames[1] = "Level2";
+			SetMenu.levelNames[2] = "Level3";
 		}
 	}
 }

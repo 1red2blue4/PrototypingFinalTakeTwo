@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!isPlayerDead && !GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GamePause>().isEnemyDead)
+        if (!isPlayerDead /*&& !GameObject.FindGameObjectWithTag("MainCamera").GetComponent<GamePause>().isEnemyDead*/)
         {
 
             if (selectedBase == null)
@@ -85,6 +85,7 @@ public class UIManager : MonoBehaviour {
                 gameObject.GetComponent<Canvas>().enabled = false;
             }
 
+			/*
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 selectedBaseIndex++;
@@ -105,6 +106,7 @@ public class UIManager : MonoBehaviour {
                     selector.transform.localScale = new Vector3(1.4f, 0.7f, 1.0f);
                 }
             }
+            */
 
             if (!buttonBeingPressed)
             {
@@ -138,7 +140,6 @@ public class UIManager : MonoBehaviour {
             {
                 buttonBeingPressed = false;
             }
-
 
         }
 
@@ -202,31 +203,30 @@ public class UIManager : MonoBehaviour {
  
     public void PressButton(int buttonNum)
 	{
-		print(buttonNum);
 		currentSelectedUnit = buttonNum;
 
 		GameObject createType = null;
 		if (currentSelectedUnit == 1)
 		{
-			createType = tank;
+			createType = sniper;
 		}
         else if (currentSelectedUnit == 2)
         {
-			createType = healer;
+			createType = barbarian;
         }
 		else if (currentSelectedUnit == 3)
 		{
-            //UpdateList to keep track
-            updateList = true;
-			createType = flagBearer;
+			createType = tank;
 		}
 		else if (currentSelectedUnit == 4)
 		{
-			createType = sniper;
+			createType = healer;
 		}
 		else if (currentSelectedUnit == 5)
 		{
-			createType = barbarian;
+			//UpdateList to keep track
+			updateList = true;
+			createType = flagBearer;
 		}
 		if (createType != null && ResourceDisplay.favour >= createType.GetComponent<UnitScript>().unitCost)
 		{

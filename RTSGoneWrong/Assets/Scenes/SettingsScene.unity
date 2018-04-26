@@ -1225,7 +1225,7 @@ Prefab:
     - target: {fileID: 114620038614075100, guid: 1a7f9459e57da91468b2a34f2086f496,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: MenuAction
+      value: LoadTech
       objectReference: {fileID: 0}
     - target: {fileID: 114302356439653716, guid: 1a7f9459e57da91468b2a34f2086f496,
         type: 2}

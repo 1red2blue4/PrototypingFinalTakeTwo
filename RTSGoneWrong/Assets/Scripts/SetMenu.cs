@@ -7,6 +7,8 @@ public class SetMenu : MonoBehaviour {
 	public static bool menuOn;
 	public static bool gameHasStarted;
 	public static float masterVolume;
+	public static int levelNum;
+	public static string[] levelNames;
 
 	public void SetMenuOn(bool isOn)
 	{

@@ -131,7 +131,6 @@ public class UnitGeneralBehavior : MonoBehaviour {
 			if (goesRight == true && rand <= obedience)
 			{
 				goal = gameObject.GetComponent<UnitScript>().NormalBehavior();
-                print(goal);
 			} 
 			//disobey
 			else

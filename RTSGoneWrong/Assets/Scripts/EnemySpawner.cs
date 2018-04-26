@@ -52,11 +52,15 @@ public class EnemySpawner : MonoBehaviour
                 GenerateUnits();
                 spawnTimer = 0.0f;
             }
+			/*
             if (updateList)
             {
                 updateList = false;
                 UpdateSpawnList();
             }
+            */
+
+			UpdateSpawnList();
             timer += Time.deltaTime;
             spawnTimer += Time.deltaTime;
         }
@@ -93,9 +97,12 @@ public class EnemySpawner : MonoBehaviour
             int randBase = Random.Range(0, spawningObjects.Count - 1);
 
             GameObject selectedBase = spawningObjects[randBase];
-            Instantiate(createType, selectedBase.transform.position, Quaternion.identity);
+			if (selectedBase != null)
+			{
+				Instantiate(createType, selectedBase.transform.position, Quaternion.identity);
 
-            enemyResources -= createType.GetComponent<UnitScript>().unitCost;
+				enemyResources -= createType.GetComponent<UnitScript>().unitCost;
+			}
         }
     }
 
@@ -106,8 +113,11 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < bases.GetLength(0); i++)
             spawningObjects.Add(bases[i]);
 
+		//print(spawningObjects.Count);
+
         if (spawningObjects.Count == 0)
         {
+			print("Yay!");
             YouWin();
         }
 

@@ -18,11 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/SettingsScene.unity
     guid: 43a34080e47e5f14fb89c13f8cba3594
   - enabled: 1
-    path: Assets/Scenes/BurhanPotentialScene.unity
-    guid: 0687c81849041e1408669966eff754f9
-  - enabled: 1
-    path: Assets/Scenes/NaveenPotentialScene.unity
-    guid: a467dc7c5a2189747a7fd76a70a236b5
-  - enabled: 1
     path: Assets/Scenes/KaustabhPotentialScene.unity
     guid: 092b9ac795285134eac9dd9caa4e5c45
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 33ff72e323d91b749bba82d946479e42
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: dd1c6a9c244b2ec4a8605bde53f90a4f
