@@ -53,8 +53,8 @@ public class MoveThroughTutorial : MonoBehaviour {
 		allTextLines[3][0] = "You can take a good look around your old campus with the keys W, A, S, and D.";
 		allTextLines[3][1] = "Give it a try!";
 
-		allTextLines[4][0] = "You can take a closer look at the campus with O, and a more";
-		allTextLines[4][1] = "grand view with P.";
+		allTextLines[4][0] = "You can take a closer look at the campus with Q, and a more";
+		allTextLines[4][1] = "grand view with E. Scrolling your mouse wheel also works!";
 
 		allTextLines[5][0] = "I'll bet Humans versus Zombies students are willing to help out.";
 		allTextLines[5][1] = "Try pressing 1 to recruit one.";

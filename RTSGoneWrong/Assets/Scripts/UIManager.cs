@@ -272,7 +272,15 @@ public class UIManager : MonoBehaviour {
 		{
 			mainCamera.orthographicSize += cameraZoomSpeed * Time.deltaTime;
 		}
-	}
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            mainCamera.orthographicSize -= cameraZoomSpeed * Time.deltaTime * 5;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            mainCamera.orthographicSize += cameraZoomSpeed * Time.deltaTime * 5;
+        }
+    }
 
     void YouLose()
     {
